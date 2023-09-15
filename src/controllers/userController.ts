@@ -1,9 +1,16 @@
 import { Request, Response } from "express";
+import User from "../models/User";
 
-const registerUser = (req: Request, res: Response) => {};
+const getUser = async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  console.log("userId" + userId);
+  const user = await User.findById(userId, "name email");
 
-const authenticateUser = (req: Request, res: Response) => {};
+  if (!user) {
+    res.status(400);
+  }
 
-const logoutUser = (req: Request, res: Response) => {};
+  res.status(200).json(user);
+};
 
-export { registerUser, authenticateUser, logoutUser };
+export { getUser };
