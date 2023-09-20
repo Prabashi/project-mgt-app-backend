@@ -1,10 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import { Roles } from "../constants";
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  roles: string[];
   comparePassword: (enteredPassword: string) => boolean;
 }
 
@@ -21,6 +23,11 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
+  },
+  roles: {
+    type: [String],
+    required: true,
+    default: [Roles.User],
   },
 });
 

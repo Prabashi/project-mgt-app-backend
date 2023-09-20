@@ -22,11 +22,16 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (user) {
-    generateToken(res, user._id);
+    generateToken(res, {
+      userId: user._id,
+      userEmail: user.email,
+      roles: user.roles,
+    });
     res.status(201).json({
       id: user._id,
       name: user.name,
       email: user.email,
+      roles: user.roles,
     });
   } else {
     throw new BadRequestError("An error occurred in registering the user");
@@ -38,11 +43,16 @@ const authenticateUser = asyncHandler(async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.comparePassword(password))) {
-    generateToken(res, user._id);
+    generateToken(res, {
+      userId: user._id,
+      userEmail: user.email,
+      roles: user.roles,
+    });
     res.status(201).json({
       id: user._id,
       name: user.name,
       email: user.email,
+      roles: user.roles,
     });
   } else {
     throw new AuthenticationError("User not found / password incorrect");
