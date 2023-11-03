@@ -11,6 +11,6 @@ router.get(
   getUser
 );
 
-router.get("/", authorize([Roles.Admin]), getUsers);
+router.get("/", authorize([Roles.User]), getUsers);
 
 export default router;
